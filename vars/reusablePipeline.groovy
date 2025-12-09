@@ -1,4 +1,4 @@
-def call(String gitUrl, String)
+def call(String gitUrl, String gitToken)
 {
     pipeline {
     agent { label "QA-server" }
@@ -12,7 +12,7 @@ def call(String gitUrl, String)
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
                         url: 'gitUrl',
-                        credentialsId: 'github_token'
+                        credentialsId: 'gitToken'
                     ]]
                 ])
             }
