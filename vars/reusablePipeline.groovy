@@ -11,8 +11,8 @@ def call(String gitUrl, String gitToken)
                     $class: 'GitSCM',
                     branches: [[name: '*/main']],
                     userRemoteConfigs: [[
-                        url: 'gitUrl',
-                        credentialsId: 'gitToken'
+                        url: gitUrl,
+                        credentialsId: gitToken
                     ]]
                 ])
             }
