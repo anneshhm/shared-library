@@ -1,4 +1,6 @@
-pipeline {
+def call(String gitUrl, String)
+{
+    pipeline {
     agent { label "QA-server" }
 
     stages {
@@ -38,4 +40,6 @@ pipeline {
             }
         }
     }
+}
+ 
 }
