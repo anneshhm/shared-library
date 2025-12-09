@@ -1,1 +1,41 @@
-abcd
+pipeline {
+    agent { label "QA-server" }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        url: 'https://github.com/anneshhm/student-app.git',
+                        credentialsId: 'github_token'
+                    ]]
+                ])
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Deploy to Artifactory') {
+            steps {
+                configFileProvider(
+                    [configFile(fileId: "488d20ae-57f3-440a-9d63-6e9f7edc1e3d", variable: 'MAVEN_SETTINGS')]
+                ) {
+                    sh 'mvn deploy -s $MAVEN_SETTINGS'
+                }
+            }
+        }
+    }
+}
